@@ -19,15 +19,21 @@ export class DetailPokemonComponent implements OnInit {
 
       // Je récupère l'identifiant du pokemon contenu dans l'url
       const id = +this.route.snapshot.paramMap.get('id');
-      this.pokemon = this.pokemonsService.getPokemon(id);
+      this.pokemonsService.getPokemon(id)
+      .subscribe(pokemon => this.pokemon = pokemon);
   }
 
   goBack(): void {
       // Url de redirection
-      this.router.navigate(['/pokemons']);
+      this.router.navigate(['/pokemon/all']);
 
       // On accède à l'historique de navigation, puis on demande un retour en arrière
       // window.history.back();
+  }
+
+  delete(pokemon: Pokemon): void {
+    this.pokemonsService.deletePokemon(pokemon)
+    .subscribe(_ => this.goBack());
   }
 
   goEdit(pokemon: Pokemon): void {
